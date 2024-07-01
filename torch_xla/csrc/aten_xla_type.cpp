@@ -3033,7 +3033,7 @@ at::Tensor XLANativeFunctions::rsub(const at::Tensor& self,
 
 at::Tensor scatter_reduce_helper(const at::Tensor& self, int64_t dim,
                                  const at::Tensor& index, const at::Tensor& src,
-                                 std::optional<std::string_view> reduce) {
+                                 std::optional<c10::string_view> reduce) {
   XLATensorPtr self_tensor = bridge::GetXlaTensor(self);
   if (!reduce.has_value()) {
     return bridge::AtenFromXlaTensor(
@@ -3054,7 +3054,7 @@ at::Tensor scatter_reduce_helper(const at::Tensor& self, int64_t dim,
 at::Tensor scatter_reduce_helper(const at::Tensor& self, int64_t dim,
                                  const at::Tensor& index,
                                  const at::Scalar& value,
-                                 std::optional<std::string_view> reduce) {
+                                 std::optional<c10::string_view> reduce) {
   TORCH_LAZY_FN_COUNTER_TIMED_TRACING("xla::");
   XLATensorPtr self_tensor = bridge::GetXlaTensor(self);
   if (!reduce.has_value()) {
