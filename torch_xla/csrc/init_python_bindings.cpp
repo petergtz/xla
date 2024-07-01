@@ -1000,8 +1000,11 @@ void InitXlaModuleBindings(py::module m) {
                                           : std::vector<std::string>();
   });
   m.def("_xla_get_replication_devices_count", []() {
-    auto replication_devices =
-        xla::ComputationClient::Get()->GetReplicationDevices();
+    std::shared_ptr<std::vector<std::string>> replication_devices;
+    {
+      NoGilSection nogil;
+      replication_devices = xla::ComputationClient::Get()->GetReplicationDevices();
+    }
     return replication_devices != nullptr ? replication_devices->size() : 0;
   });
   m.def("_xla_rendezvous",
